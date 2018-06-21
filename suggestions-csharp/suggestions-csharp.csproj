@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+    <Version>1.0.0</Version>
+    <Authors>Pavel Fedorov</Authors>
+    <Company>TransportSystems</Company>
+    <PackageId>DaData.Client.Async</PackageId>
+  </PropertyGroup>
+  <ItemGroup>
+    <Folder Include="src\" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="RestSharp" Version="106.3.1" />
+  </ItemGroup>
+</Project>

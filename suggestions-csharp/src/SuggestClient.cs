@@ -14,9 +14,9 @@ namespace suggestionscsharp
         private const string FIO_RESOURCE = "fio";
         private const string EMAIL_RESOURCE = "email";
 
-        private RestClient client;
-        private string token;
-        private ContentType contentType = ContentType.JSON;
+        private readonly RestClient client;
+        private readonly string token;
+        private readonly ContentType contentType = ContentType.JSON;
 
         public IWebProxy Proxy
         {
@@ -27,7 +27,7 @@ namespace suggestionscsharp
         public SuggestClient(string token, string baseUrl)
         {
             this.token = token;
-            this.client = new RestClient(String.Format(SUGGESTIONS_URL, baseUrl));
+            client = new RestClient(String.Format(SUGGESTIONS_URL, baseUrl));
         }
 
         public Task<SuggestAddressResponse> QueryAddress(string address)

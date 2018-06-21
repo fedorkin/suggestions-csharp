@@ -4,7 +4,6 @@ using RestSharp;
 
 namespace suggestionscsharp
 {
-
     public sealed class ContentType
     {
         readonly string name;
