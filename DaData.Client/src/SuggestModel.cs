@@ -2,35 +2,27 @@
 using System.Collections.Generic;
 using RestSharp;
 
-namespace suggestionscsharp
+namespace DaData.Client
 {
     public sealed class ContentType
     {
-        readonly string name;
-        readonly DataFormat format;
-
-        public string Name
-        {
-            get { return this.name; }
-        }
-
-        public DataFormat Format
-        {
-            get { return this.format; }
-        }
-
         public static readonly ContentType JSON = new ContentType("application/json", DataFormat.Json);
+
         public static readonly ContentType XML = new ContentType("application/xml", DataFormat.Xml);
 
         private ContentType(string name, DataFormat format)
         {
-            this.name = name;
-            this.format = format;
+            Name = name;
+            Format = format;
         }
+
+        public string Name { get; }
+
+        public DataFormat Format { get; }
 
         public override string ToString()
         {
-            return name;
+            return Name;
         }
     }
 
