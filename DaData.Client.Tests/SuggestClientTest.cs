@@ -1,5 +1,4 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Xunit;
 
 namespace DaData.Client.Tests
@@ -10,7 +9,7 @@ namespace DaData.Client.Tests
 
         public SuggestionsClientTest()
         {
-            var token = "b6dd2fbec849b949ba1702261294853289a1e106";// Environment.GetEnvironmentVariable("DADATA_API_KEY");
+            var token = Environment.GetEnvironmentVariable("DADATA_API_KEY");
             var url = "https://suggestions.dadata.ru/suggestions/api/4_1/rs";
             Api = new SuggestClient(token, url);
         }
@@ -21,22 +20,22 @@ namespace DaData.Client.Tests
             var query = "москва турчанинов 6с2";
 
             var response = await Api.QueryAddress(query);
-            var address_data = response.suggestions[0].data;
+            var addressData = response.Suggestions[0].Data;
 
-            Assert.Equal("119034", address_data.postal_code);
-            Assert.Equal("7704", address_data.tax_office);
+            Assert.Equal("119034", addressData.PostalCode);
+            Assert.Equal("7704", addressData.TaxOffice);
         }
 
         [Fact]
         public async Task SuggestAddressLocationsKladrTest()
         {
             var query = new AddressSuggestQuery("ватутина");
-            var location = new AddressData { kladr_id = "65" };
-            query.locations = new AddressData[] { location };
+            var location = new AddressData { KladrId = "65" };
+            query.Locations = new AddressData[] { location };
 
             var response = await Api.QueryAddress(query);
 
-            Assert.Equal("693022", response.suggestions[0].data.postal_code);
+            Assert.Equal("693022", response.Suggestions[0].Data.PostalCode);
         }
 
         [Fact]
@@ -44,12 +43,12 @@ namespace DaData.Client.Tests
         {
             var query = new AddressSuggestQuery("ватутина");
             // Южно-Сахалинск 
-            var location = new AddressData { city_fias_id = "44388ad0-06aa-49b0-bbf9-1704629d1d68" };
-            query.locations = new AddressData[] { location };
+            var location = new AddressData { CityFiasId = "44388ad0-06aa-49b0-bbf9-1704629d1d68" };
+            query.Locations = new AddressData[] { location };
 
             var response = await Api.QueryAddress(query);
 
-            Assert.Equal("693022", response.suggestions[0].data.postal_code);
+            Assert.Equal("693022", response.Suggestions[0].Data.PostalCode);
         }
 
         [Fact]
@@ -57,13 +56,13 @@ namespace DaData.Client.Tests
         {
             var query = new AddressSuggestQuery("ново")
             {
-                from_bound = new AddressBound("city"),
-                to_bound = new AddressBound("city")
+                FromBound = new AddressBound("city"),
+                ToBound = new AddressBound("city")
             };
 
             var response = await Api.QueryAddress(query);
 
-            Assert.Equal("Новосибирск", response.suggestions[0].data.city);
+            Assert.Equal("Новосибирск", response.Suggestions[0].Data.City);
         }
 
         [Fact]
@@ -72,9 +71,9 @@ namespace DaData.Client.Tests
             var query = "москва хабар";
 
             var response = await Api.QueryAddress(query);
-            var address_data = response.suggestions[0].data;
+            var addressData = response.Suggestions[0].Data;
 
-            Assert.Equal("ул Черненко", address_data.history_values[0]);
+            Assert.Equal("ул Черненко", addressData.HistoryValues[0]);
         }
 
         [Fact]
@@ -84,8 +83,8 @@ namespace DaData.Client.Tests
 
             var response = await Api.QueryBank(query);
 
-            Assert.Equal("044525225", response.suggestions[0].data.bic);
-            Assert.Equal("Москва", response.suggestions[0].data.address.data.city);
+            Assert.Equal("044525225", response.Suggestions[0].Data.Bic);
+            Assert.Equal("Москва", response.Suggestions[0].Data.Address.Data.City);
         }
 
         [Fact]
@@ -93,12 +92,12 @@ namespace DaData.Client.Tests
         {
             var query = new BankSuggestQuery("витас")
             {
-                status = new PartyStatus[] { PartyStatus.LIQUIDATED }
+                Status = new PartyStatus[] { PartyStatus.LIQUIDATED }
             };
 
             var response = await Api.QueryBank(query);
 
-            Assert.Equal("044585398", response.suggestions[0].data.bic);
+            Assert.Equal("044585398", response.Suggestions[0].Data.Bic);
         }
 
         [Fact]
@@ -106,12 +105,12 @@ namespace DaData.Client.Tests
         {
             var query = new BankSuggestQuery("я")
             {
-                type = new BankType[] { BankType.NKO }
+                Type = new BankType[] { BankType.NKO }
             };
 
             var response = await Api.QueryBank(query);
 
-            Assert.Equal("044525444", response.suggestions[0].data.bic);
+            Assert.Equal("044525444", response.Suggestions[0].Data.Bic);
         }
 
         [Fact]
@@ -121,7 +120,7 @@ namespace DaData.Client.Tests
 
             var response = await Api.QueryEmail(query);
 
-            Assert.Equal("anton@mail.ru", response.suggestions[0].value);
+            Assert.Equal("anton@mail.ru", response.Suggestions[0].Value);
         }
 
         [Fact]
@@ -131,7 +130,7 @@ namespace DaData.Client.Tests
 
             var response = await Api.QueryFio(query);
 
-            Assert.Equal("Виктор", response.suggestions[0].data.name);
+            Assert.Equal("Виктор", response.Suggestions[0].Data.Name);
         }
 
         [Fact]
@@ -139,12 +138,12 @@ namespace DaData.Client.Tests
         {
             var query = new FioSuggestQuery("викт")
             {
-                parts = new FioPart[] { FioPart.SURNAME }
+                Parts = new FioPart[] { FioPart.SURNAME }
             };
 
             var response = await Api.QueryFio(query);
 
-            Assert.Equal("Викторова", response.suggestions[0].data.surname);
+            Assert.Equal("Викторова", response.Suggestions[0].Data.Surname);
         }
 
         [Fact]
@@ -153,13 +152,13 @@ namespace DaData.Client.Tests
             var query = "7707083893";
 
             var response = await Api.QueryParty(query);
-            var party = response.suggestions[0];
-            var address = response.suggestions[0].data.address;
+            var party = response.Suggestions[0];
+            var address = response.Suggestions[0].Data.Address;
 
-            Assert.Equal("7707083893", party.data.inn);
-            Assert.Equal("г Москва, ул Вавилова, д 19", address.value);
-            Assert.Equal("117997, ГОРОД МОСКВА, УЛИЦА ВАВИЛОВА, 19", address.data.source);
-            Assert.Equal("117312", address.data.postal_code);
+            Assert.Equal("7707083893", party.Data.Inn);
+            Assert.Equal("г Москва, ул Вавилова, д 19", address.Value);
+            Assert.Equal("117997, ГОРОД МОСКВА, УЛИЦА ВАВИЛОВА, 19", address.Data.Source);
+            Assert.Equal("117312", address.Data.PostalCode);
         }
 
         [Fact]
@@ -167,12 +166,12 @@ namespace DaData.Client.Tests
         {
             var query = new PartySuggestQuery("витас")
             {
-                status = new PartyStatus[] { PartyStatus.LIQUIDATED }
+                Status = new PartyStatus[] { PartyStatus.LIQUIDATED }
             };
 
             var response = await Api.QueryParty(query);
 
-            Assert.Equal("4713008497", response.suggestions[0].data.inn);
+            Assert.Equal("4713008497", response.Suggestions[0].Data.Inn);
         }
 
         [Fact]
@@ -180,12 +179,12 @@ namespace DaData.Client.Tests
         {
             var query = new PartySuggestQuery("витас")
             {
-                type = PartyType.INDIVIDUAL
+                Type = PartyType.INDIVIDUAL
             };
 
             var response = await Api.QueryParty(query);
 
-            Assert.Equal("470411980055", response.suggestions[0].data.inn);
+            Assert.Equal("470411980055", response.Suggestions[0].Data.Inn);
         }
     }
 }

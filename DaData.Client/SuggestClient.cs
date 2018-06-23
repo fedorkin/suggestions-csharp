@@ -83,12 +83,13 @@ namespace DaData.Client
 
         private async Task<T> Execute<T>(RestRequest request, SuggestQuery query) where T : new()
         {
-            request.AddHeader("Authorization", "Token " + this.token);
+            request.AddHeader("Authorization", "Token " + token);
             request.AddHeader("Content-Type", contentType.Name);
             request.AddHeader("Accept", contentType.Name);
             request.RequestFormat = contentType.Format;
             request.XmlSerializer.ContentType = contentType.Name;
-            request.AddBody(query);
+            request.JsonSerializer = NewtonsoftJsonSerializer.Default;
+            request.AddJsonBody(query);
             var response = await client.ExecuteTaskAsync<T>(request);
 
             if (response.ErrorException != null)
