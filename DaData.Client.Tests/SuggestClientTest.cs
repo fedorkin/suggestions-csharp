@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using System.Threading.Tasks;
 using Xunit;
 
@@ -11,7 +10,7 @@ namespace DaData.Client.Tests
 
         public SuggestionsClientTest()
         {
-            var token = "b6dd2fbec849b949ba1702261294853289a1e106";// Environment.GetEnvironmentVariable("DADATA_API_KEY");
+            var token = Environment.GetEnvironmentVariable("DADATA_API_KEY");
             var url = "https://suggestions.dadata.ru/suggestions/api/4_1/rs";
             Api = new SuggestClient(token, url);
         }
@@ -26,19 +25,6 @@ namespace DaData.Client.Tests
 
             Assert.Equal("119034", addressData.PostalCode);
             Assert.Equal("7704", addressData.TaxOffice);
-        }
-
-        [Fact]
-        public async Task SuggestAddressGeolocationTest()
-        {
-            var query = "москва турчанинов 6с2";
-
-            var response = await Api.QueryAddress(query);
-            var addressData = response.Suggestions.FirstOrDefault().Data;
-
-            Assert.Equal("55.7372795", addressData.GeoLat);
-            Assert.Equal("37.5971189", addressData.GeoLon);
-            Assert.Equal("0", addressData.QcGeo);
         }
 
         [Fact]
