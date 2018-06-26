@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using RestSharp;
+using System.Collections.Generic;
 
 namespace DaData.Client
 {
@@ -300,15 +300,14 @@ namespace DaData.Client
         [JsonProperty("timezone")]
         public string Timezone { get; set; }
 
-
         [JsonProperty("geo_lat")]
-        public string GeoLatitude { get; set; }
+        public string GeoLat { get; set; }
 
         [JsonProperty("geo_lon")]
-        public string GeoLongitude { get; set; }
+        public string GeoLon { get; set; }
 
         [JsonProperty("qc_geo")]
-        public string GeoAccuracyCode { get; set; }
+        public string QcGeo { get; set; }
 
 
         [JsonProperty("beltway_hit")]
