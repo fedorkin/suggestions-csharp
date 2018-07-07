@@ -11,7 +11,7 @@ namespace DaData.Client.Tests
 
         public SuggestionsClientTest()
         {
-            var token = "b6dd2fbec849b949ba1702261294853289a1e106";// Environment.GetEnvironmentVariable("DADATA_API_KEY");
+            var token = Environment.GetEnvironmentVariable("DADATA_API_KEY");
             var url = "https://suggestions.dadata.ru/suggestions/api/4_1/rs";
             Api = new SuggestClient(token, url);
         }
@@ -38,6 +38,19 @@ namespace DaData.Client.Tests
 
             Assert.Equal("55.7372795", addressData.GeoLat);
             Assert.Equal("37.5971189", addressData.GeoLon);
+            Assert.Equal("0", addressData.QcGeo);
+        }
+
+        [Fact]
+        public async Task SuggestAddressGeolocationWhenNeedRestrictResultCount()
+        {
+            var query = new AddressSuggestQuery("Ярославская область Октябрьский 12") { Count = 1 };
+
+            var response = await Api.QueryAddress(query);
+            var addressData = response.Suggestions.FirstOrDefault().Data;
+
+            Assert.Equal("57.9847437", addressData.GeoLat);
+            Assert.Equal("39.110142", addressData.GeoLon);
             Assert.Equal("0", addressData.QcGeo);
         }
 

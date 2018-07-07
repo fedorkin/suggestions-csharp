@@ -29,6 +29,7 @@ namespace DaData.Client
         public SuggestQuery(string query)
         {
             Query = query;
+            Count = 5;
         }
 
         [JsonProperty("query")]
